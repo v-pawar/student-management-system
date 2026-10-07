@@ -10,7 +10,117 @@
   </head>
 
   <body>
-    <h1>Student Management System</h1>
+    <div class="dashboard">
+      <!-- Sidebar -->
+      <aside class="sidebar">
+        <div class="logo">
+          <h2>StudentMS</h2>
+        </div>
+
+        <nav class="sidebar-nav">
+          <a href="#" class="nav-link active"> Dashboard </a>
+
+          <a href="#" class="nav-link"> Students </a>
+
+          <a href="#" class="nav-link"> Attendance </a>
+
+          <a href="#" class="nav-link"> Courses </a>
+
+          <a href="#" class="nav-link"> Teachers </a>
+
+          <a href="#" class="nav-link"> Results </a>
+
+          <a href="#" class="nav-link"> Fees </a>
+
+          <a href="#" class="nav-link"> Reports </a>
+        </nav>
+
+        <button class="logout-btn">Logout</button>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="main-content">
+        <!-- Header -->
+        <header class="top-header">
+          <div>
+            <h1>Dashboard</h1>
+            <p>Welcome back, Admin</p>
+          </div>
+
+          <div class="admin-profile">
+            <span>Admin</span>
+          </div>
+        </header>
+
+        <!-- Statistics -->
+        <section class="stats-container">
+          <div class="stat-card">
+            <h3>Total Students</h3>
+            <p>250</p>
+          </div>
+
+          <div class="stat-card">
+            <h3>Present Today</h3>
+            <p>220</p>
+          </div>
+
+          <div class="stat-card">
+            <h3>Absent Today</h3>
+            <p>30</p>
+          </div>
+
+          <div class="stat-card">
+            <h3>Total Courses</h3>
+            <p>8</p>
+          </div>
+        </section>
+
+        <!-- Recent Students -->
+        <section class="students-section">
+          <div class="section-header">
+            <h2>Recent Students</h2>
+
+            <button class="view-btn">View All</button>
+          </div>
+
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Course</th>
+                  <th>Year</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr>
+                  <td>vivek</td>
+                  <td>BCS</td>
+                  <td>3rd Year</td>
+                  <td>Active</td>
+                </tr>
+
+                <tr>
+                  <td>roshani</td>
+                  <td>BCA</td>
+                  <td>3rd Year</td>
+                  <td>Active</td>
+                </tr>
+
+                <tr>
+                  <td>samir</td>
+                  <td>BCS</td>
+                  <td>3rd Year</td>
+                  <td>Active</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
 
     <script src="script.js"></script>
   </body>
