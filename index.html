@@ -75,8 +75,86 @@
           </div>
         </section>
 
+        <!-- Student Management -->
+
+        <section class="student-management">
+          <div class="section-header">
+            <h2>Add New Student</h2>
+          </div>
+
+          <form id="studentForm">
+            <div class="form-group">
+              <label for="firstName">First Name</label>
+              <input
+                type="text"
+                id="firstName"
+                placeholder="Enter first name"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="lastName">Last Name</label>
+              <input type="text" id="lastName" placeholder="Enter last name" />
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input type="email" id="email" placeholder="Enter email" />
+            </div>
+
+            <div class="form-group">
+              <label for="phone">Phone</label>
+              <input
+                type="tel"
+                id="phone"
+                placeholder="Enter phone number"
+                maxlength="10"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="age">Age</label>
+              <input type="number" id="age" placeholder="Enter age" />
+            </div>
+
+            <div class="form-group">
+              <label for="course">Course</label>
+
+              <select id="course">
+                <option value="">Select Course</option>
+                <option value="BCS">BCS</option>
+                <option value="BCA">BCA</option>
+                <option value="BBA">BBA</option>
+                <option value="MCA">MCA</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="year">Year</label>
+
+              <select id="year">
+                <option value="">Select Year</option>
+                <option value="1st Year">1st Year</option>
+                <option value="2nd Year">2nd Year</option>
+                <option value="3rd Year">3rd Year</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="rollNumber">Roll Number</label>
+              <input
+                type="text"
+                id="rollNumber"
+                placeholder="Enter roll number"
+              />
+            </div>
+
+            <button type="submit" class="add-student-btn">Add Student</button>
+          </form>
+        </section>
+
         <!-- Recent Students -->
-        <section class="students-section">
+        <section class="students-section"
           <div class="section-header">
             <h2>Recent Students</h2>
 
@@ -91,15 +169,21 @@
                   <th>Course</th>
                   <th>Year</th>
                   <th>Status</th>
+                  <td>Action</td>
+
                 </tr>
               </thead>
 
-              <tbody>
+              <tbody id="studentTableBody">
                 <tr>
                   <td>vivek</td>
                   <td>BCS</td>
                   <td>3rd Year</td>
                   <td>Active</td>
+                 <td style="color: red;">delete</td>
+
+
+
                 </tr>
 
                 <tr>
@@ -107,6 +191,8 @@
                   <td>BCA</td>
                   <td>3rd Year</td>
                   <td>Active</td>
+                  <td style="color: red;">delete</td>
+
                 </tr>
 
                 <tr>
@@ -114,6 +200,7 @@
                   <td>BCS</td>
                   <td>3rd Year</td>
                   <td>Active</td>
+                  <td style="color: red;">delete</td>
                 </tr>
               </tbody>
             </table>
