@@ -184,3 +184,44 @@ searchStudent.addEventListener("input", function () {
   renderStudents(filteredStudents);
 });
 
+// this is a sorted  logic here
+
+const sortStudents = document.getElementById("sortStudents");
+
+sortStudents.addEventListener("change", function () {
+  const sortValue = sortStudents.value;
+
+  if (sortValue === "name-asc") {
+    const sortedStudents = [...allstudent];
+
+    sortedStudents.sort(function (a, b) {
+      return a.firstName.localeCompare(b.firstName);
+    });
+
+    renderStudents(sortedStudents);
+  } else if (sortValue === "name-desc") {
+    const sortedStudents = [...allstudent];
+
+    sortedStudents.sort(function (a, b) {
+      return b.firstName.localeCompare(a.firstName);
+    });
+
+    renderStudents(sortedStudents);
+  } else if (sortValue === "roll-asc") {
+    const sortedStudents = [...allstudent];
+
+    sortedStudents.sort(function (a, b) {
+      return Number(a.rollNumber) - Number(b.rollNumber);
+    });
+
+    renderStudents(sortedStudents);
+  } else if (sortValue === "roll-desc") {
+    const sortedStudents = [...allstudent];
+
+    sortedStudents.sort(function (a, b) {
+      return Number(b.rollNumber) - Number(a.rollNumber);
+    });
+
+    renderStudents(sortedStudents);
+  }
+});
