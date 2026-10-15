@@ -218,3 +218,29 @@ th {
     color: white;
     font-size: 15px;
 }
+
+
+
+/* // search box logiuc  */    
+
+
+.search-container {
+    width: 100%;
+    margin: 20px 0;
+}
+
+#searchStudent {
+    width: 100%;
+    max-width: 450px;
+    padding: 12px 15px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
+    box-sizing: border-box;
+    outline: none;
+}
+
+#searchStudent:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}

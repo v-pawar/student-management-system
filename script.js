@@ -4,9 +4,9 @@ const studentForm = document.getElementById("studentForm");
 
 const studentTableBody = document.getElementById("studentTableBody");
 
-function renderStudents() {
+function renderStudents(studentsToRender = allstudent) {
   studentTableBody.innerHTML = "";
-  allstudent.forEach(function (student) {
+  studentsToRender.forEach(function (student) {
     const row = document.createElement("tr");
 
     const nameCell = document.createElement("td");
@@ -161,3 +161,26 @@ studentForm.addEventListener("submit", function (event) {
   renderStudents();
   studentForm.reset();
 });
+
+const searchStudent = document.getElementById("searchStudent");
+
+searchStudent.addEventListener("input", function () {
+  const searchText = searchStudent.value.trim().toLowerCase();
+
+  if (searchText === "") {
+    renderStudents();
+    return;
+  }
+
+  const filteredStudents = allstudent.filter(function (student) {
+    const fullName = `${student.firstName} ${student.lastName}`.toLowerCase();
+
+    // const rollNumber = student.rollNumber.toLowerCase();
+    const rollNumber = String(student.rollNumber).toLowerCase();
+
+    return fullName.includes(searchText) || rollNumber.includes(searchText);
+  });
+
+  renderStudents(filteredStudents);
+});
+
