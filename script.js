@@ -1,5 +1,15 @@
 let allstudent = [];
 
+function saveStudents() {
+  localStorage.setItem("students", JSON.stringify(allstudent));
+}
+
+const savedStudents = localStorage.getItem("students");
+
+if (savedStudents !== null) {
+  allstudent = JSON.parse(savedStudents);
+}
+
 let isEditMode = false;
 
 let editingRollNumber = null;
@@ -72,11 +82,13 @@ function renderStudents(studentsToRender = allstudent) {
       allstudent = allstudent.filter(function (currentStudent) {
         return currentStudent.rollNumber !== student.rollNumber;
       });
-
+      saveStudents(); // Save updated data
       renderStudents();
     });
   });
 }
+
+renderStudents();
 
 const phoneInput = document.getElementById("phone");
 
@@ -84,6 +96,8 @@ phoneInput.addEventListener("input", function () {
   phoneInput.value = phoneInput.value.replace(/\D/g, "").slice(0, 10);
 });
 
+renderStudents();
+// form submit logic
 studentForm.addEventListener("submit", function (event) {
   event.preventDefault();
 
@@ -163,19 +177,19 @@ studentForm.addEventListener("submit", function (event) {
   }
 
   const cheak = allstudent.some(function (currentStudent) {
-  // Same student ko uske existing roll number ke saath edit karne do
-  if (isEditMode && currentStudent.rollNumber === editingRollNumber) {
-    return false;
+    // Same student ko uske existing roll number ke saath edit karne do
+    if (isEditMode && currentStudent.rollNumber === editingRollNumber) {
+      return false;
+    }
+
+    // Kisi doosre student ka roll number duplicate nahi hona chahiye
+    return currentStudent.rollNumber === rollNumber;
+  });
+
+  if (cheak) {
+    alert("This roll number already exists");
+    return;
   }
-
-  // Kisi doosre student ka roll number duplicate nahi hona chahiye
-  return currentStudent.rollNumber === rollNumber;
-});
-
-if (cheak) {
-  alert("This roll number already exists");
-  return;
-}
 
   // validation end here
   const student = {
@@ -205,16 +219,12 @@ if (cheak) {
 
   console.log("All students:", allstudent);
 
-  renderStudents();
-
-  studentForm.reset();
+  saveStudents(); // LocalStorage mein data save karo
+  renderStudents(); // Table update karo
+  studentForm.reset(); // Form clear karo
 
   isEditMode = false;
   editingRollNumber = null;
-
-  console.log("All students:", allstudent);
-  renderStudents();
-  studentForm.reset();
 });
 
 const searchStudent = document.getElementById("searchStudent");
