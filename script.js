@@ -1,5 +1,9 @@
 let allstudent = [];
 
+let isEditMode = false;
+
+let editingRollNumber = null;
+
 const studentForm = document.getElementById("studentForm");
 
 const studentTableBody = document.getElementById("studentTableBody");
@@ -31,15 +35,39 @@ function renderStudents(studentsToRender = allstudent) {
 
     const actionCell = document.createElement("td");
 
+    // Delete button
     const deleteButton = document.createElement("button");
     deleteButton.innerText = "Delete";
+    deleteButton.classList.add("delete-btn");
 
     actionCell.appendChild(deleteButton);
 
+    // Edit button
+    const editButton = document.createElement("button");
+    editButton.innerText = "Edit";
+    editButton.classList.add("edit-btn");
+
+    actionCell.appendChild(editButton);
+
+    // Action cell ko row mein add karo
     row.appendChild(actionCell);
 
-    // delete button logic here
+    // Edit button logic
+    editButton.addEventListener("click", function () {
+      isEditMode = true;
+      editingRollNumber = student.rollNumber;
 
+      document.getElementById("firstName").value = student.firstName;
+      document.getElementById("lastName").value = student.lastName;
+      document.getElementById("email").value = student.email;
+      document.getElementById("phone").value = student.phone;
+      document.getElementById("age").value = student.age;
+      document.getElementById("course").value = student.course;
+      document.getElementById("rollNumber").value = student.rollNumber;
+      document.getElementById("year").value = student.year;
+    });
+
+    // Delete button logic
     deleteButton.addEventListener("click", function () {
       allstudent = allstudent.filter(function (currentStudent) {
         return currentStudent.rollNumber !== student.rollNumber;
@@ -134,14 +162,20 @@ studentForm.addEventListener("submit", function (event) {
     return;
   }
 
-  const cheak = allstudent.some(function (vivek) {
-    return vivek.rollNumber === rollNumber;
-  });
-
-  if (cheak) {
-    alert("This roll number already exists");
-    return;
+  const cheak = allstudent.some(function (currentStudent) {
+  // Same student ko uske existing roll number ke saath edit karne do
+  if (isEditMode && currentStudent.rollNumber === editingRollNumber) {
+    return false;
   }
+
+  // Kisi doosre student ka roll number duplicate nahi hona chahiye
+  return currentStudent.rollNumber === rollNumber;
+});
+
+if (cheak) {
+  alert("This roll number already exists");
+  return;
+}
 
   // validation end here
   const student = {
@@ -155,7 +189,28 @@ studentForm.addEventListener("submit", function (event) {
     rollNumber: rollNumber,
   };
 
-  allstudent.push(student);
+  // allstudent.push(student);
+
+  if (isEditMode) {
+    const studentIndex = allstudent.findIndex(function (currentStudent) {
+      return currentStudent.rollNumber === editingRollNumber;
+    });
+
+    if (studentIndex !== -1) {
+      allstudent[studentIndex] = student;
+    }
+  } else {
+    allstudent.push(student);
+  }
+
+  console.log("All students:", allstudent);
+
+  renderStudents();
+
+  studentForm.reset();
+
+  isEditMode = false;
+  editingRollNumber = null;
 
   console.log("All students:", allstudent);
   renderStudents();

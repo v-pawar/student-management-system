@@ -244,3 +244,38 @@ th {
     border-color: #2563eb;
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
+
+/* edit and delet btton  css  */
+
+/* Common button styling */
+.edit-btn,
+.delete-btn {
+  padding: 7px 14px;
+  border: none;
+  border-radius: 5px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Edit button */
+.edit-btn {
+  background-color: #dbeafe;
+  color: #1d4ed8;
+  margin-right: 8px;
+}
+
+.edit-btn:hover {
+  background-color: #bfdbfe;
+}
+
+/* Delete button */
+.delete-btn {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+.delete-btn:hover {
+  background-color: #fecaca;
+}
