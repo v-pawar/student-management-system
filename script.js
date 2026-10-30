@@ -1,5 +1,86 @@
 let allstudent = [];
 
+//  atentence record  here
+let attendanceRecords = [];
+
+function saveAttendance() {
+  localStorage.setItem("attendanceRecords", JSON.stringify(attendanceRecords));
+}
+
+// attendence  coming from localstorage
+
+function loadAttendance() {
+  const savedAttendance = localStorage.getItem("attendanceRecords");
+
+  if (savedAttendance !== null) {
+    attendanceRecords = JSON.parse(savedAttendance);
+  }
+}
+
+loadAttendance();
+
+function markAttendance(student, status) {
+  const today = new Date().toISOString().split("T")[0];
+
+  const existingRecord = attendanceRecords.find(function (record) {
+    return record.rollNumber === student.rollNumber && record.date === today;
+  });
+
+  if (existingRecord) {
+    existingRecord.status = status;
+  } else {
+    attendanceRecords.push({
+      rollNumber: student.rollNumber,
+      date: today,
+      status: status,
+    });
+  }
+
+  saveAttendance();
+  renderStudents();
+  updateDashboard();
+
+  console.log(student.firstName + " marked " + status);
+}
+
+function updateDashboard() {
+  // Total students count
+  const totalStudents = document.getElementById("totalStudents");
+  totalStudents.innerText = allstudent.length;
+
+  const presentToday = document.getElementById("presentToday");
+
+  const today = new Date().toISOString().split("T")[0];
+
+  const presentCount = attendanceRecords.filter(function (record) {
+    return record.date === today && record.status === "Present";
+  }).length;
+
+  presentToday.innerText = presentCount;
+
+  // absent count
+
+  const absentToday = document.getElementById("absentToday");
+
+  const absentCount = attendanceRecords.filter(function (record) {
+    return record.date === today && record.status === "Absent";
+  }).length;
+
+  absentToday.innerText = absentCount;
+
+  // Total unique courses count
+  const totalCourses = document.getElementById("totalCourses");
+
+  const courses = allstudent.map(function (student) {
+    return student.course;
+  });
+
+  const uniqueCourses = new Set(courses);
+
+  totalCourses.innerText = uniqueCourses.size;
+}
+
+// localstorage sanve  records
 function saveStudents() {
   localStorage.setItem("students", JSON.stringify(allstudent));
 }
@@ -18,6 +99,8 @@ const studentForm = document.getElementById("studentForm");
 
 const studentTableBody = document.getElementById("studentTableBody");
 
+//    attendnce logic    here
+
 function renderStudents(studentsToRender = allstudent) {
   studentTableBody.innerHTML = "";
   studentsToRender.forEach(function (student) {
@@ -35,11 +118,71 @@ function renderStudents(studentsToRender = allstudent) {
     yearCell.innerText = student.year;
     row.appendChild(yearCell);
 
+    // const statusCell = document.createElement("td");
+    // statusCell.innerText = "Active";
+    // row.appendChild(statusCell);
+
     const statusCell = document.createElement("td");
-    statusCell.innerText = "Active";
+
+    const today = new Date().toISOString().split("T")[0];
+
+    const attendanceRecord = attendanceRecords.find(function (record) {
+      return record.rollNumber === student.rollNumber && record.date === today;
+    });
+
+    // if (attendanceRecord) {
+    //   statusCell.innerText = attendanceRecord.status;
+    // } else {
+    //   statusCell.innerText = "Not Marked";
+    // }
+
+    // row.appendChild(statusCell);
+
+    if (attendanceRecord) {
+      statusCell.innerText = attendanceRecord.status;
+
+      if (attendanceRecord.status === "Present") {
+        statusCell.style.color = "#16a34a";
+        statusCell.style.fontWeight = "bold";
+      } else if (attendanceRecord.status === "Absent") {
+        statusCell.style.color = "#dc2626";
+        statusCell.style.fontWeight = "bold";
+      }
+    } else {
+      statusCell.innerText = "Not Marked";
+      statusCell.style.color = "#6b7280";
+    }
+
     row.appendChild(statusCell);
 
     studentTableBody.appendChild(row);
+
+    // attendence  logic
+
+    const attendanceCell = document.createElement("td");
+    row.appendChild(attendanceCell);
+
+    // Present button
+    const presentButton = document.createElement("button");
+    presentButton.innerText = "Present";
+    presentButton.classList.add("present-btn");
+    attendanceCell.appendChild(presentButton);
+
+    // Absent button
+    const absentButton = document.createElement("button");
+    absentButton.innerText = "Absent";
+    absentButton.classList.add("absent-btn");
+    attendanceCell.appendChild(absentButton);
+
+    // Present button logic
+    presentButton.addEventListener("click", function () {
+      markAttendance(student, "Present");
+    });
+
+    // Absent button logic
+    absentButton.addEventListener("click", function () {
+      markAttendance(student, "Absent");
+    });
 
     // delet button crete
 
@@ -84,11 +227,14 @@ function renderStudents(studentsToRender = allstudent) {
       });
       saveStudents(); // Save updated data
       renderStudents();
+      updateDashboard(); // update counter  dashbord
     });
   });
 }
 
 renderStudents();
+// Dashboard ko initially update karo
+updateDashboard();
 
 const phoneInput = document.getElementById("phone");
 
@@ -221,6 +367,7 @@ studentForm.addEventListener("submit", function (event) {
 
   saveStudents(); // LocalStorage mein data save karo
   renderStudents(); // Table update karo
+  updateDashboard(); // update dashboard
   studentForm.reset(); // Form clear karo
 
   isEditMode = false;

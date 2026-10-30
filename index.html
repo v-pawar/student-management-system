@@ -53,25 +53,27 @@
         </header>
 
         <!-- Statistics -->
+
+        <!-- Statistics -->
         <section class="stats-container">
           <div class="stat-card">
             <h3>Total Students</h3>
-            <p>250</p>
+            <p id="totalStudents">0</p>
           </div>
 
           <div class="stat-card">
             <h3>Present Today</h3>
-            <p>220</p>
+            <p id="presentToday">0</p>
           </div>
 
           <div class="stat-card">
             <h3>Absent Today</h3>
-            <p>30</p>
+            <p id="absentToday">0</p>
           </div>
 
           <div class="stat-card">
             <h3>Total Courses</h3>
-            <p>8</p>
+            <p id="totalCourses">0</p>
           </div>
         </section>
 
@@ -154,40 +156,34 @@
         </section>
 
         <!-- Recent Students -->
-        <section class="students-section"
+        <section class="students-section">
           <div class="section-header">
             <h2>Recent Students</h2>
 
             <button class="view-btn">View All</button>
           </div>
 
-      
           <div class="table-container">
+            <!-- Search Box -->
+            <div class="search-container">
+              <input
+                type="text"
+                id="searchStudent"
+                placeholder="Search by name or roll number..."
+              />
+            </div>
 
-              <!-- Search Box -->
-    <div class="search-container">
-        <input
-            type="text"
-            id="searchStudent"
-            placeholder="Search by name or roll number..."
-        >
-    </div>
+            <!-- // sorting dropdown start   -->
 
+            <select id="sortStudents">
+              <option value="">Sort Students</option>
+              <option value="name-asc">Name: A to Z</option>
+              <option value="name-desc">Name: Z to A</option>
+              <option value="roll-asc">Roll Number: Low to High</option>
+              <option value="roll-desc">Roll Number: High to Low</option>
+            </select>
 
-    <!-- // sorting dropdown start   -->
-
-    <select id="sortStudents">
-    <option value="">Sort Students</option>
-    <option value="name-asc">Name: A to Z</option>
-    <option value="name-desc">Name: Z to A</option>
-    <option value="roll-asc">Roll Number: Low to High</option>
-    <option value="roll-desc">Roll Number: High to Low</option>
-</select>
-
-
-
-
-    <!-- here  table start   -->
+            <!-- here  table start   -->
             <table>
               <thead>
                 <tr>
@@ -195,8 +191,9 @@
                   <th>Course</th>
                   <th>Year</th>
                   <th>Status</th>
-                  <td>Action</td>
+                  <th>Attendance</th>
 
+                  <th>Action</th>
                 </tr>
               </thead>
 
@@ -206,27 +203,23 @@
                   <td>BCS</td>
                   <td>3rd Year</td>
                   <td>Active</td>
-                 <td style="color: red;">delete</td>
-
-
-
+                  <td style="color: red">delete</td>
                 </tr>
 
                 <tr>
-                  <td>roshani</td>
+                  <td>jamima</td>
                   <td>BCA</td>
                   <td>3rd Year</td>
                   <td>Active</td>
-                  <td style="color: red;">delete</td>
-
+                  <td style="color: red">delete</td>
                 </tr>
 
                 <tr>
-                  <td>samir</td>
+                  <td>jasmin</td>
                   <td>BCS</td>
                   <td>3rd Year</td>
                   <td>Active</td>
-                  <td style="color: red;">delete</td>
+                  <td style="color: red">delete</td>
                 </tr>
               </tbody>
             </table>
@@ -234,8 +227,6 @@
         </section>
       </main>
     </div>
-
-
 
     <script src="script.js"></script>
   </body>

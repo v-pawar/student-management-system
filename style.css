@@ -279,3 +279,52 @@ th {
 .delete-btn:hover {
   background-color: #fecaca;
 }
+
+
+
+/* attendenc button logic  */  
+
+/* Attendance Buttons */
+
+/* Present Button */
+.present-btn {
+background-color: #d1fae5;
+color: #065f46;
+border: 1px solid #10b981;
+
+padding: 6px 12px;
+border: none;
+border-radius: 5px;
+font-size: 13px;
+font-weight: 600;
+cursor: pointer;
+margin: 3px;
+transition: all 0.3s ease;
+}
+
+.present-btn:hover {
+background-color: #10b981;
+color: white;
+}
+
+/* Absent Button */
+.absent-btn {
+background-color: #fee2e2;
+color: #991b1b;
+border: 1px solid #ef4444;
+
+
+padding: 6px 12px;
+border: none;
+border-radius: 5px;
+font-size: 13px;
+font-weight: 600;
+cursor: pointer;
+margin: 3px;
+transition: all 0.3s ease;
+}
+
+.absent-btn:hover {
+background-color: #ef4444;
+color: white;
+}
