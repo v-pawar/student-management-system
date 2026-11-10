@@ -3,15 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#111111" />
 
     <title>Student Management System</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
 
     <link rel="stylesheet" href="style.css" />
   </head>
 
   <body>
     <div class="dashboard">
-      <!-- Sidebar -->
+      <!-- ===== Sidebar ===== -->
       <aside class="sidebar">
         <div class="logo">
           <h2>StudentMS</h2>
@@ -19,26 +27,19 @@
 
         <nav class="sidebar-nav">
           <a href="#" class="nav-link active"> Dashboard </a>
-
           <a href="#" class="nav-link"> Students </a>
-
           <a href="#" class="nav-link"> Attendance </a>
-
           <a href="#" class="nav-link"> Courses </a>
-
           <a href="#" class="nav-link"> Teachers </a>
-
           <a href="#" class="nav-link"> Results </a>
-
           <a href="#" class="nav-link"> Fees </a>
-
           <a href="#" class="nav-link"> Reports </a>
         </nav>
 
         <button class="logout-btn">Logout</button>
       </aside>
 
-      <!-- Main Content -->
+      <!-- ===== Main Content ===== -->
       <main class="main-content">
         <!-- Header -->
         <header class="top-header">
@@ -51,8 +52,6 @@
             <span>Admin</span>
           </div>
         </header>
-
-        <!-- Statistics -->
 
         <!-- Statistics -->
         <section class="stats-container">
@@ -78,13 +77,20 @@
         </section>
 
         <!-- Student Management -->
-
         <section class="student-management">
           <div class="section-header">
-            <h2>Add New Student</h2>
+            <h2 id="formTitle">Add New Student</h2>
+            <button
+              type="button"
+              id="cancelEditBtn"
+              class="cancel-edit-btn"
+              style="display: none"
+            >
+              Cancel Edit
+            </button>
           </div>
 
-          <form id="studentForm">
+          <form id="studentForm" novalidate>
             <div class="form-group">
               <label for="firstName">First Name</label>
               <input
@@ -96,7 +102,12 @@
 
             <div class="form-group">
               <label for="lastName">Last Name</label>
-              <input type="text" id="lastName" placeholder="Enter last name" />
+              <input
+                type="text"
+                id="lastName"
+                placeholder="Enter last name"
+                autocomplete="off"
+              />
             </div>
 
             <div class="form-group">
@@ -121,7 +132,6 @@
 
             <div class="form-group">
               <label for="course">Course</label>
-
               <select id="course">
                 <option value="">Select Course</option>
                 <option value="BCS">BCS</option>
@@ -133,7 +143,6 @@
 
             <div class="form-group">
               <label for="year">Year</label>
-
               <select id="year">
                 <option value="">Select Year</option>
                 <option value="1st Year">1st Year</option>
@@ -151,7 +160,9 @@
               />
             </div>
 
-            <button type="submit" class="add-student-btn">Add Student</button>
+            <button type="submit" class="add-student-btn" id="submitBtn">
+              Add Student
+            </button>
           </form>
         </section>
 
@@ -159,21 +170,16 @@
         <section class="students-section">
           <div class="section-header">
             <h2>Recent Students</h2>
-
             <button class="view-btn">View All</button>
           </div>
 
-          <div class="table-container">
-            <!-- Search Box -->
-            <div class="search-container">
-              <input
-                type="text"
-                id="searchStudent"
-                placeholder="Search by name or roll number..."
-              />
-            </div>
-
-            <!-- // sorting dropdown start   -->
+          <!-- Search + Sort row -->
+          <div class="search-container">
+            <input
+              type="text"
+              id="searchStudent"
+              placeholder="Search by name or roll number..."
+            />
 
             <select id="sortStudents">
               <option value="">Sort Students</option>
@@ -182,8 +188,10 @@
               <option value="roll-asc">Roll Number: Low to High</option>
               <option value="roll-desc">Roll Number: High to Low</option>
             </select>
+          </div>
 
-            <!-- here  table start   -->
+          <!-- Table wrapper -->
+          <div class="table-container">
             <table>
               <thead>
                 <tr>
@@ -192,40 +200,74 @@
                   <th>Year</th>
                   <th>Status</th>
                   <th>Attendance</th>
-
                   <th>Action</th>
                 </tr>
               </thead>
 
-              <tbody id="studentTableBody">
-                <tr>
-                  <td>vivek</td>
-                  <td>BCS</td>
-                  <td>3rd Year</td>
-                  <td>Active</td>
-                  <td style="color: red">delete</td>
-                </tr>
-
-                <tr>
-                  <td>jamima</td>
-                  <td>BCA</td>
-                  <td>3rd Year</td>
-                  <td>Active</td>
-                  <td style="color: red">delete</td>
-                </tr>
-
-                <tr>
-                  <td>jasmin</td>
-                  <td>BCS</td>
-                  <td>3rd Year</td>
-                  <td>Active</td>
-                  <td style="color: red">delete</td>
-                </tr>
-              </tbody>
+              <!-- ===== JS renders rows here ===== -->
+              <tbody id="studentTableBody"></tbody>
             </table>
+
+            <!-- ===== EMPTY STATE (shows when no students or no search results) ===== -->
+            <div class="empty-state" id="emptyState" style="display: none">
+              <svg
+                width="56"
+                height="56"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <path d="M20 13V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v6" />
+                <path d="M20 13v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-4" />
+                <path d="M20 13h-5l-2 3h-2l-2-3H4" />
+              </svg>
+              <h4>No students found</h4>
+              <p>Try adjusting your search or add a new student.</p>
+            </div>
           </div>
         </section>
       </main>
+    </div>
+
+    <!-- ===== TOAST CONTAINER (notifications appear here) ===== -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- ===== DELETE CONFIRMATION MODAL ===== -->
+    <div class="modal-overlay" id="deleteModal">
+      <div class="modal">
+        <div class="modal-icon">
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M3 6h18" />
+            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+            <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+          </svg>
+        </div>
+        <h3>Delete Student?</h3>
+        <p id="deleteModalText">
+          This action cannot be undone. The student record will be permanently
+          removed.
+        </p>
+        <div class="modal-actions">
+          <button type="button" class="btn-ghost" id="cancelDelete">
+            Cancel
+          </button>
+          <button type="button" class="btn-danger" id="confirmDelete">
+            Delete
+          </button>
+        </div>
+      </div>
     </div>
 
     <script src="script.js"></script>
