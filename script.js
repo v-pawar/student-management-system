@@ -85,6 +85,78 @@ document.addEventListener("keydown", function (e) {
 });
 
 /* ============================================================
+   STUDENT PROFILE MODAL
+   ============================================================ */
+
+const profileModal = document.getElementById("profileModal");
+const closeProfileBtn = document.getElementById("closeProfileBtn");
+
+function closeProfileModal() {
+  profileModal.classList.remove("show");
+}
+
+closeProfileBtn.addEventListener("click", closeProfileModal);
+
+// Close modal when clicking outside
+profileModal.addEventListener("click", function (event) {
+  if (event.target === profileModal) {
+    closeProfileModal();
+  }
+});
+
+/* ============================================================
+   SHOW STUDENT PROFILE
+   ============================================================ */
+
+function showStudentProfile(student) {
+  // Student personal and academic details
+  document.getElementById("profileAvatar").innerText = student.firstName
+    .charAt(0)
+    .toUpperCase();
+
+  document.getElementById("profileName").innerText =
+    `${student.firstName} ${student.lastName}`;
+
+  document.getElementById("profileRollNumber").innerText =
+    `Roll Number: ${student.rollNumber}`;
+
+  document.getElementById("profileEmail").innerText = student.email;
+  document.getElementById("profilePhone").innerText = student.phone;
+  document.getElementById("profileAge").innerText = student.age;
+  document.getElementById("profileCourse").innerText = student.course;
+  document.getElementById("profileYear").innerText = student.year;
+
+  // Find selected student's attendance records
+  const studentAttendance = attendanceRecords.filter(function (record) {
+    return record.rollNumber === student.rollNumber;
+  });
+
+  // Calculate Present and Absent days
+  const presentDays = studentAttendance.filter(function (record) {
+    return record.status === "Present";
+  }).length;
+
+  const absentDays = studentAttendance.filter(function (record) {
+    return record.status === "Absent";
+  }).length;
+
+  const totalDays = presentDays + absentDays;
+
+  // Calculate attendance percentage
+  const percentage = totalDays === 0 ? 0 : (presentDays / totalDays) * 100;
+
+  // Display attendance details
+  document.getElementById("profilePresent").innerText = presentDays;
+  document.getElementById("profileAbsent").innerText = absentDays;
+
+  document.getElementById("profilePercentage").innerText =
+    `${percentage.toFixed(1)}%`;
+
+  // Open profile modal
+  profileModal.classList.add("show");
+}
+
+/* ============================================================
    ATTENDANCE — Save / Load / Mark
    ============================================================ */
 function saveAttendance() {
@@ -258,6 +330,21 @@ function renderStudents(studentsToRender = allstudent) {
 
     // Action buttons
     const actionCell = document.createElement("td");
+
+    // profile card
+
+    // View Profile button
+    const profileButton = document.createElement("button");
+
+    profileButton.type = "button";
+    profileButton.innerText = "View Profile";
+    profileButton.classList.add("profile-btn");
+
+    actionCell.appendChild(profileButton);
+
+    profileButton.addEventListener("click", function () {
+      showStudentProfile(student);
+    });
 
     const deleteButton = document.createElement("button");
     deleteButton.type = "button";
